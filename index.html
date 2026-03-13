@@ -193,6 +193,67 @@ border:1px solid #bfdbfe;
 color:#1e3a8a;
 line-height:1.5;
 }
+.status-banner{
+display:none;
+margin-top:16px;
+padding:14px 16px;
+border-radius:14px;
+background:#ecfdf5;
+border:1px solid #a7f3d0;
+color:#065f46;
+font-weight:bold;
+line-height:1.5;
+}
+.status-banner.show{
+display:block;
+}
+.next-step{
+margin-top:12px;
+padding:14px 16px;
+border-radius:14px;
+background:#fffbeb;
+border:1px solid #fde68a;
+color:#92400e;
+font-weight:bold;
+line-height:1.5;
+}
+.preview-card{
+margin-top:18px;
+padding:18px;
+border-radius:18px;
+background:#f8fafc;
+border:1px solid #e5e7eb;
+box-shadow:0 8px 24px rgba(15,23,42,.05);
+}
+.preview-card h3{
+margin:0 0 8px;
+font-size:18px;
+}
+.preview-sub{
+color:#6b7280;
+font-size:14px;
+margin-bottom:14px;
+line-height:1.5;
+}
+.preview-day{
+background:white;
+border:1px solid #e5e7eb;
+border-radius:14px;
+padding:14px;
+}
+.preview-day-title{
+font-weight:bold;
+font-size:16px;
+margin-bottom:10px;
+}
+.preview-list{
+margin:0;
+padding-left:18px;
+line-height:1.8;
+}
+.preview-list li{
+margin:0;
+}
 .tag-banner{
 margin-top:18px;
 padding:18px;
@@ -444,6 +505,21 @@ Works with <span>ChatGPT</span> • <span>Claude</span> • <span>Gemini</span> 
 
 <div class="section-title">Your AI Prompt</div>
 <textarea id="output"></textarea>
+
+<div class="status-banner" id="promptStatus">
+✅ AI Prompt Ready<br>
+Copy it and paste it into your AI to generate your program.
+</div>
+
+<div class="next-step" id="nextStepNotice">
+Prompt generated successfully. Next step → paste it into your AI.
+</div>
+
+<div class="preview-card" id="previewCard">
+<h3>Preview My Program Style</h3>
+<div class="preview-sub">Here is a sample of the style of plan your AI can generate based on your inputs.</div>
+<div class="preview-day" id="previewOutput"></div>
+</div>
 
 <div class="quick-tip" id="conversationTip">
 <b>Step 3 tip:</b> After pasting this into your AI, send this follow-up:
@@ -725,21 +801,115 @@ document.getElementById("conversationTip").innerHTML = `<b>Step 3 tip:</b> After
 <i>"Turn this into a clean printable workout sheet with bold section headings, simple spacing, and a gym-friendly layout."</i>`
 }
 
+function buildPreview(data){
+const goal = data.goal
+const days = parseInt(data.days,10)
+
+let title = "Day 1: Full Body Foundation"
+let exercises = [
+"Squat — 3x8",
+"Bench Press — 3x8",
+"Lat Pulldown — 3x10",
+"Romanian Deadlift — 2x10",
+"Plank — 3 rounds"
+]
+
+if(goal === "Strength"){
+title = days <= 3 ? "Day 1: Full Body Strength" : "Day 1: Upper Strength"
+exercises = [
+"Back Squat — 4x5",
+"Bench Press — 4x5",
+"Barbell Row — 4x6",
+"Overhead Press — 3x6",
+"Weighted Carry — 3 rounds"
+]
+}
+
+if(goal === "Muscle Growth"){
+title = days <= 3 ? "Day 1: Full Body Hypertrophy" : "Day 1: Upper Body Hypertrophy"
+exercises = [
+"Bench Press — 4x6-8",
+"Barbell Row — 4x8",
+"Incline Dumbbell Press — 3x10",
+"Lat Pulldown — 3x10-12",
+"Lateral Raise — 3x15"
+]
+}
+
+if(goal === "Fat Loss"){
+title = days <= 3 ? "Day 1: Full Body Fat Loss" : "Day 1: Upper Body Conditioning"
+exercises = [
+"Goblet Squat — 3x10",
+"Dumbbell Bench Press — 3x10",
+"Seated Row — 3x12",
+"Walking Lunges — 2x12 each leg",
+"Bike Intervals — 8 rounds"
+]
+}
+
+if(goal === "Athletic Performance"){
+title = days <= 3 ? "Day 1: Full Body Performance" : "Day 1: Explosive Upper Body"
+exercises = [
+"Box Jump — 4x3",
+"Bench Press — 4x5",
+"Pull-Ups — 4x6",
+"Single-Leg RDL — 3x8 each leg",
+"Farmer Carry — 3 rounds"
+]
+}
+
+if(goal === "General Fitness"){
+title = days <= 3 ? "Day 1: Full Body Fitness" : "Day 1: Upper Body Fitness"
+exercises = [
+"Leg Press — 3x10",
+"Push-Up or Bench Press — 3x8-10",
+"Cable Row — 3x10",
+"Dumbbell Shoulder Press — 3x10",
+"Core Circuit — 3 rounds"
+]
+}
+
+return `<div class="preview-day-title">${title}</div>
+<ul class="preview-list">
+${exercises.map(ex => `<li>${ex}</li>`).join("")}
+</ul>`
+}
+
+function updatePreview(data){
+document.getElementById("previewOutput").innerHTML = buildPreview(data)
+}
+
+function showPromptReady(){
+const status = document.getElementById("promptStatus")
+status.classList.add("show")
+}
+
 function generatePrompt(){
 const data = getBaseData()
 const prompt = buildPrompt(data)
 document.getElementById("output").value = prompt
 updateMeter(data)
 updateTip(data)
+updatePreview(data)
+showPromptReady()
 }
 
 function copyPrompt(){
 const output=document.getElementById("output")
+const button = event ? event.target : document.querySelector('.button-row .secondary')
+
 if(!output.value){
 generatePrompt()
 }
 output.select()
 document.execCommand("copy")
+
+const originalText = button.innerText
+button.innerText = "Copied ✓"
+
+setTimeout(()=>{
+button.innerText = originalText
+},1500)
 }
 
 function copyConversationStarter(){
@@ -762,6 +932,15 @@ document.body.appendChild(temp)
 temp.select()
 document.execCommand("copy")
 document.body.removeChild(temp)
+
+const button = event ? event.target : null
+if(button){
+const originalText = button.innerText
+button.innerText = "Copied ✓"
+setTimeout(()=>{
+button.innerText = originalText
+},1500)
+}
 }
 
 function openAI(){
@@ -777,7 +956,22 @@ window.open(url,"_blank")
 }
 
 function resetForm(){
-location.reload()
+
+// reset all inputs and selects
+document.querySelectorAll("input, select").forEach(el=>{
+if(el.tagName==="SELECT"){
+el.selectedIndex = 0
+}else{
+el.value = ""
+}
+})
+
+// clear generated AI prompt
+document.getElementById("output").value = ""
+
+// regenerate prompt state
+generatePrompt()
+
 }
 
 document.getElementById("aiPlatform").addEventListener("change", generatePrompt)
