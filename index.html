@@ -365,8 +365,9 @@ const macroGuide=document.getElementById("macroGuide").value
 const supplements=document.getElementById("supplements").value
 const supplementSug=document.getElementById("supplementSug").value
 
-const prompt=`Create a 12-week adaptive workout program.
+const prompt=const prompt=`Create a professional 12-week adaptive training program based on the user information provided.
 
+User Inputs:
 Fitness Level: ${level}
 Goal: ${goal}
 Intensity: ${intensity}
@@ -376,7 +377,7 @@ Training Days Per Week: ${days}
 Preferred Split: ${split}
 Workout Length: ${length}
 Available Equipment: ${equipment}
-Injuries: ${injuries}
+Injuries or Limitations: ${injuries}
 Cardio Preference: ${cardio}
 
 Nutrition Goal: ${nutritionGoal}
@@ -385,32 +386,72 @@ Macro Guidance Requested: ${macroGuide}
 Current Supplements: ${supplements}
 Suggested Supplements Requested: ${supplementSug}
 
-Design a fully structured 12‑week adaptive workout program including:
-- weekly training split
-- progressive overload strategy
-- deload weeks
-- exercise substitutions if equipment is missing
-- fatigue management
-- cardio integration
-- recovery tips
+PROGRAM REQUIREMENTS
+
+Design a fully structured 12-week training program that includes:
+
+• Weekly training split
+• Exercise selection appropriate for experience level
+• Progressive overload strategy
+• Planned deload weeks
+• Fatigue management strategies
+• Exercise substitutions if equipment is limited
+• Cardio integration based on preference
+• Recovery recommendations
+
+Structure the program in clear phases if appropriate.
+
+WORKOUT STRUCTURE
+
+For each workout day include:
+Exercise Name
+Sets
+Reps
+Rest Time
+Optional Notes
+
+FORM GUIDANCE
+
+Include brief form guidance for major compound exercises such as squats, deadlifts, bench press, overhead press, and rows.
+
+NUTRITION GUIDANCE
 
 If a nutrition goal is selected:
-- estimate daily calorie targets based on bodyweight
-- suggest macros for protein, carbs, and fats
-- adjust calories for deficit, maintenance, or surplus
+Estimate daily calorie targets using the user's bodyweight and training goal.
+Provide macro ranges for protein, carbohydrates, and fats.
+Adjust calories for deficit, maintenance, or surplus.
 
-Take current supplements into account before suggesting new ones.
+SUPPLEMENT GUIDANCE
 
-Format the final output so it is clean and printable as a PDF workout sheet the user can bring to the gym.
+Review current supplements first.
+If supplement suggestions are requested, provide a short section recommending useful supplements.
 
-Use:
-- program title
-- weekly structure
-- clearly labeled workout days
-- exercises with sets, reps, and rest
-- notes section
-- supplement section if requested
-- nutrition section if requested.`
+OUTPUT FORMAT
+
+Format the final output like a clean printable training document.
+
+Include:
+Program Title
+User Overview
+Weekly Training Split
+Full 12-Week Program
+Exercise Notes
+Nutrition Section (if requested)
+Supplement Section (if requested)
+
+At the end include a short line stating that the program can be printed or saved as a PDF.
+
+IMPORTANT RULES
+
+Only generate the workout program and related sections.
+
+Do NOT discuss:
+• the generator
+• the website
+• improving the tool
+• adding features
+
+Do NOT explain how the program was generated.`
 
 document.getElementById("output").value=prompt
 }
