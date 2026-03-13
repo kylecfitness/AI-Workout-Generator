@@ -254,6 +254,55 @@ line-height:1.8;
 .preview-list li{
 margin:0;
 }
+.retention-card{
+margin-top:18px;
+padding:18px;
+border-radius:18px;
+background:#f9fafb;
+border:1px solid #e5e7eb;
+box-shadow:0 8px 24px rgba(15,23,42,.05);
+}
+.retention-card h3{
+margin:0 0 8px;
+font-size:18px;
+}
+.retention-sub{
+color:#6b7280;
+font-size:14px;
+margin-bottom:14px;
+line-height:1.5;
+}
+.checklist{
+margin:0;
+padding-left:18px;
+line-height:1.8;
+}
+.return-banner{
+margin-top:16px;
+padding:16px;
+border-radius:16px;
+background:#eef2ff;
+border:1px solid #c7d2fe;
+color:#3730a3;
+line-height:1.6;
+font-weight:bold;
+}
+.bookmark-banner{
+margin-top:16px;
+padding:14px 16px;
+border-radius:14px;
+background:#f0fdf4;
+border:1px solid #bbf7d0;
+color:#166534;
+font-weight:bold;
+line-height:1.5;
+}
+.phase-note{
+margin-top:14px;
+font-size:13px;
+color:#6b7280;
+line-height:1.5;
+}
 .tag-banner{
 margin-top:18px;
 padding:18px;
@@ -323,6 +372,31 @@ Works with <span>ChatGPT</span> • <span>Claude</span> • <span>Gemini</span> 
 <label>AI Optimization</label>
 <input value="Automatically optimized for selected AI" readonly>
 </div>
+</div>
+
+<div class="section-title">Program Progression</div>
+<div class="grid">
+
+<div>
+<label>Program Phase</label>
+<select id="programPhase">
+<option>First Program</option>
+<option>Phase 2 Progression</option>
+<option>Phase 3 Intensification</option>
+<option>Deload & Rebuild</option>
+</select>
+</div>
+
+<div>
+<label>Program Code</label>
+<input id="programCode" readonly>
+</div>
+
+<div class="full">
+<label>Previous Program Notes</label>
+<textarea id="previousNotes" style="min-height:140px" placeholder="Paste your previous program notes here when you come back. Example: final working weights, progress made, favorite exercises, disliked exercises, fatigue issues, and anything that should carry into the next phase."></textarea>
+</div>
+
 </div>
 
 <div class="section-title">Training Info</div>
@@ -482,6 +556,7 @@ Works with <span>ChatGPT</span> • <span>Claude</span> • <span>Gemini</span> 
 <button class="secondary" onclick="copyPrompt()">Copy for My AI</button>
 <button class="primary" onclick="openAI()">Open AI</button>
 <button class="secondary" onclick="copyConversationStarter()">Copy Conversation Starter</button>
+<button class="secondary" onclick="generateNextPhase()">Generate Next Phase Program</button>
 <button class="secondary" onclick="resetForm()">Reset</button>
 </div>
 
@@ -521,6 +596,27 @@ Prompt generated successfully. Next step → paste it into your AI.
 <div class="preview-day" id="previewOutput"></div>
 </div>
 
+<div class="retention-card">
+<h3>When You Finish This Program</h3>
+<div class="retention-sub">Make it easy to return and build your next training phase without needing an account.</div>
+<ul class="checklist">
+<li>Save your final working weights</li>
+<li>Save your favorite exercises</li>
+<li>Save any exercises you disliked</li>
+<li>Save fatigue, pain, or recovery issues</li>
+<li>Come back and generate your next phase</li>
+</ul>
+<div class="phase-note">Use the Program Phase selector and Previous Program Notes field when you return so the next plan builds on what you already did.</div>
+</div>
+
+<div class="return-banner" id="returnBanner">
+AFTER WEEK 12: Return to KCOptimized AI Workout Generator and build your next training phase. Save your final weights and progress so the next program can continue from where you left off.
+</div>
+
+<div class="bookmark-banner">
+Bookmark this generator so you can build your next training phase when this program is done.
+</div>
+
 <div class="quick-tip" id="conversationTip">
 <b>Step 3 tip:</b> After pasting this into your AI, send this follow-up:
 <br><br>
@@ -544,6 +640,9 @@ Built by KCOptimized
 function getBaseData(){
 return {
 aiPlatform: document.getElementById("aiPlatform").value,
+programPhase: document.getElementById("programPhase").value,
+programCode: document.getElementById("programCode").value,
+previousNotes: document.getElementById("previousNotes").value,
 level: document.getElementById("level").value,
 goal: document.getElementById("goal").value,
 intensity: document.getElementById("intensity").value,
@@ -562,8 +661,32 @@ supplementSug: document.getElementById("supplementSug").value
 }
 }
 
+function generateProgramCode(data){
+const goalMap = {
+"Muscle Growth":"BULK",
+"Strength":"STR",
+"Fat Loss":"CUT",
+"Athletic Performance":"ATH",
+"General Fitness":"FIT"
+}
+const phaseMap = {
+"First Program":"P1",
+"Phase 2 Progression":"P2",
+"Phase 3 Intensification":"P3",
+"Deload & Rebuild":"DR"
+}
+const goalCode = goalMap[data.goal] || "GEN"
+const phaseCode = phaseMap[data.programPhase] || "P1"
+const daysCode = data.days ? `${data.days}D` : "XD"
+const yearCode = new Date().getFullYear()
+return `KCX-${goalCode}-${daysCode}-${phaseCode}-${yearCode}`
+}
+
 function buildSharedPrompt(data){
 return `User Inputs:
+Program Phase: ${data.programPhase}
+Program Code: ${data.programCode}
+Previous Program Notes: ${data.previousNotes}
 Fitness Level: ${data.level}
 Goal: ${data.goal}
 Intensity: ${data.intensity}
@@ -721,7 +844,25 @@ Do NOT discuss:
 - adding features to the website
 - how the program was generated
 
-Do NOT include commentary unrelated to the training plan.`
+Do NOT include commentary unrelated to the training plan.
+
+PROGRAM CONTINUATION
+
+If the Program Phase is not "First Program" or if Previous Program Notes are provided, treat this as the continuation of a previous 12-week phase.
+Build the next program logically from the prior phase.
+Carry forward progress where appropriate.
+Increase difficulty gradually while respecting recovery, exercise preference, and any fatigue or injury notes.
+
+AFTER WEEK 12 REMINDER
+
+At the end of the final output, include a short note telling the user to save:
+- final working weights
+- progress made
+- favorite exercises
+- disliked exercises
+- fatigue or recovery issues
+
+Then tell the user to return to KCOptimized AI Workout Generator to build the next phase.`
 }
 
 function buildPrompt(data){
@@ -796,16 +937,22 @@ if(data.aiPlatform === "claude") aiName = "Claude"
 if(data.aiPlatform === "gemini") aiName = "Gemini"
 if(data.aiPlatform === "universal") aiName = "your AI platform"
 
+let extra = ""
+if(data.programPhase !== "First Program" || (data.previousNotes && data.previousNotes.trim())){
+extra = `<br><br><i>"Make this the logical continuation of my previous training phase and build from my progress without restarting from scratch."</i>`
+}
+
 document.getElementById("conversationTip").innerHTML = `<b>Step 3 tip:</b> After pasting this into ${aiName}, send this follow-up:
 <br><br>
-<i>"Turn this into a clean printable workout sheet with bold section headings, simple spacing, and a gym-friendly layout."</i>`
+<i>"Turn this into a clean printable workout sheet with bold section headings, simple spacing, and a gym-friendly layout."</i>${extra}`
 }
 
 function buildPreview(data){
 const goal = data.goal
 const days = parseInt(data.days,10)
+const phase = data.programPhase
 
-let title = "Day 1: Full Body Foundation"
+let title = phase === "First Program" ? "Day 1: Full Body Foundation" : "Day 1: Continued Training Phase"
 let exercises = [
 "Squat — 3x8",
 "Bench Press — 3x8",
@@ -885,12 +1032,17 @@ status.classList.add("show")
 }
 
 function generatePrompt(){
-const data = getBaseData()
+let data = getBaseData()
+const code = generateProgramCode(data)
+document.getElementById("programCode").value = code
+data = getBaseData()
+
 const prompt = buildPrompt(data)
 document.getElementById("output").value = prompt
 updateMeter(data)
 updateTip(data)
 updatePreview(data)
+document.getElementById("returnBanner").innerHTML = "AFTER WEEK 12: Return to KCOptimized AI Workout Generator and build your next training phase. Save your final weights and progress so the next program can continue from where you left off. Program Code: <b>" + data.programCode + "</b>"
 showPromptReady()
 }
 
@@ -924,7 +1076,9 @@ const text = `Paste your generated prompt into ${aiNames[data.aiPlatform]}.
 
 Then send this follow-up:
 
-"Turn this into a clean printable workout sheet with bold section headings, simple spacing, and a gym-friendly layout."`
+"Turn this into a clean printable workout sheet with bold section headings, simple spacing, and a gym-friendly layout."
+
+When you finish the program, come back with your Program Code and previous program notes so the next phase can build on your progress.`
 
 const temp = document.createElement("textarea")
 temp.value = text
@@ -943,6 +1097,17 @@ button.innerText = originalText
 }
 }
 
+function generateNextPhase(){
+document.getElementById("programPhase").selectedIndex = Math.min(document.getElementById("programPhase").selectedIndex + 1, document.getElementById("programPhase").options.length - 1)
+
+const notes = document.getElementById("previousNotes")
+if(!notes.value.trim()){
+notes.value = "Previous Program Focus:\nMain lifts used:\nFinal working weights:\nProgress made:\nExercises you enjoyed:\nExercises you disliked:\nInjuries or fatigue issues:"
+}
+
+generatePrompt()
+}
+
 function openAI(){
 const data = getBaseData()
 if(!document.getElementById("output").value){
@@ -957,8 +1122,15 @@ window.open(url,"_blank")
 
 function resetForm(){
 
-// reset all inputs and selects
-document.querySelectorAll("input, select").forEach(el=>{
+document.querySelectorAll("input, select, textarea").forEach(el=>{
+if(el.id === "output"){
+el.value = ""
+return
+}
+if(el.id === "programCode"){
+el.value = ""
+return
+}
 if(el.tagName==="SELECT"){
 el.selectedIndex = 0
 }else{
@@ -966,15 +1138,34 @@ el.value = ""
 }
 })
 
-// clear generated AI prompt
+// clear prompt/status UI without regenerating
 document.getElementById("output").value = ""
-
-// regenerate prompt state
-generatePrompt()
+document.getElementById("promptStatus").classList.remove("show")
+document.getElementById("scoreValue").textContent = "92"
+document.getElementById("meterFill").style.width = "92%"
+document.getElementById("meterContext").textContent = "Optimized for ChatGPT"
+document.getElementById("meterTags").innerHTML = `
+<span class="meter-tag">✔ Compound-first</span>
+<span class="meter-tag">✔ Printable output</span>
+<span class="meter-tag">✔ Chatgpt ready</span>
+`
+document.getElementById("conversationTip").innerHTML = `<b>Step 3 tip:</b> After pasting this into ChatGPT, send this follow-up:
+<br><br>
+<i>"Turn this into a clean printable workout sheet with bold section headings, simple spacing, and a gym-friendly layout."</i>`
+document.getElementById("returnBanner").innerHTML = "AFTER WEEK 12: Return to KCOptimized AI Workout Generator and build your next training phase. Save your final weights and progress so the next program can continue from where you left off."
+document.getElementById("previewOutput").innerHTML = `<div class="preview-day-title">Day 1: Full Body Foundation</div>
+<ul class="preview-list">
+<li>Squat — 3x8</li>
+<li>Bench Press — 3x8</li>
+<li>Lat Pulldown — 3x10</li>
+<li>Romanian Deadlift — 2x10</li>
+<li>Plank — 3 rounds</li>
+</ul>`
 
 }
 
 document.getElementById("aiPlatform").addEventListener("change", generatePrompt)
+document.getElementById("programPhase").addEventListener("change", generatePrompt)
 window.onload = generatePrompt
 </script>
 
