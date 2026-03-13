@@ -443,6 +443,29 @@ Works with <span>ChatGPT</span> • <span>Claude</span> • <span>Gemini</span> 
 </div>
 
 <div>
+<label>Sex / Gender</label>
+<select id="sexGender">
+<option>Male</option>
+<option>Female</option>
+<option>Prefer not to say</option>
+</select>
+</div>
+
+<div>
+<label>Primary Focus Area</label>
+<select id="focusArea">
+<option>Balanced</option>
+<option>Upper Body</option>
+<option>Lower Body</option>
+<option>Glutes</option>
+<option>Chest</option>
+<option>Back</option>
+<option>Arms</option>
+<option>Shoulders</option>
+</select>
+</div>
+
+<div>
 <label>Training Intensity</label>
 <select id="intensity">
 <option>Moderate</option>
@@ -705,6 +728,8 @@ programCode: document.getElementById("programCode").value,
 previousNotes: document.getElementById("previousNotes").value,
 level: document.getElementById("level").value,
 goal: document.getElementById("goal").value,
+sexGender: document.getElementById("sexGender").value,
+focusArea: document.getElementById("focusArea").value,
 intensity: document.getElementById("intensity").value,
 bodyweight: document.getElementById("bodyweight").value,
 experience: document.getElementById("experience").value,
@@ -795,6 +820,8 @@ Program Code: ${data.programCode}
 Previous Program Notes: ${data.previousNotes}
 Fitness Level: ${data.level}
 Goal: ${data.goal}
+Sex/Gender: ${data.sexGender}
+Primary Focus Area: ${data.focusArea}
 Intensity: ${data.intensity}
 Bodyweight: ${data.bodyweight}
 Training Experience: ${data.experience}
@@ -931,6 +958,52 @@ Week 12 – Deload
 • Reduce volume by 30–50%
 • Reduce intensity
 • Focus on recovery and technique
+
+
+
+PRIMARY FOCUS AREA GUIDANCE
+
+The program should prioritize the selected focus area while still maintaining balanced training.
+
+Guidelines:
+Balanced
+• Even emphasis across major muscle groups
+
+Upper Body
+• Slightly increased weekly volume for chest, back, shoulders, and arms
+
+Lower Body
+• Slightly increased weekly volume for quads, hamstrings, glutes, and calves
+
+Glutes
+• Include additional hip hinge and glute dominant movements
+
+Chest
+• Include additional pressing and chest accessory work
+
+Back
+• Include additional rowing and pulling movements
+
+Arms
+• Include additional biceps and triceps accessory work
+
+Shoulders
+• Include additional overhead pressing and lateral raise variations
+
+Do not create imbalanced programs that neglect other major movement patterns.
+
+SEX DIFFERENCE GUIDANCE
+
+If Sex/Gender is Male or Female, consider physiological and training preference differences when relevant.
+
+Examples may include:
+• glute and lower body emphasis commonly preferred in female training programs
+• upper body strength development often prioritized in male strength programs
+• fatigue tolerance and recovery considerations
+
+However, never make extreme assumptions. Base the program primarily on the user's goal, training days, experience level, and equipment.
+
+If the user selects "Prefer not to say", ignore sex-based adjustments and program normally.
 
 GOAL-FIRST PROGRAM DESIGN
 
