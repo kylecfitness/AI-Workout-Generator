@@ -817,6 +817,82 @@ Create a highly structured 12-week adaptive training program tailored to the use
 
 The program should be realistic, progressive, and sustainable.
 
+TRAINING SPLIT SELECTION LOGIC
+
+If the user selects "No preference" for training split, automatically choose the most effective split based on training days per week and experience level.
+
+Guidelines:
+
+1 Day Per Week
+• Full body workout
+
+2 Days Per Week
+• Full body workouts
+
+3 Days Per Week
+• Full body split
+
+4 Days Per Week
+• Upper / Lower split
+
+5 Days Per Week
+• Push / Pull / Legs with additional upper or lower day
+
+6 Days Per Week
+• Push / Pull / Legs repeated
+
+7 Days Per Week
+• Advanced push / pull / legs variation or upper/lower hybrid
+• Include one lighter recovery focused day
+
+Experience Adjustments:
+
+Beginner
+• Prefer full body or upper/lower splits
+• Avoid overly complex splits
+
+Intermediate
+• Full body, upper/lower, or push/pull/legs depending on training days
+
+Advanced
+• Can utilize push/pull/legs or body part splits
+• Higher training frequency allowed
+
+SPLIT QUALITY RULE
+
+Choose a split that balances:
+• muscle group recovery
+• training frequency
+• total weekly volume
+• realistic session length
+
+Avoid splits that overload a single muscle group on consecutive days.
+
+USER SPLIT VALIDATION
+
+If the user selects a specific training split, ensure it fits their training days.
+
+Example:
+Push Pull Legs requires at least 3 days per week.
+
+If the chosen split does not match the available training days, modify it to the closest effective structure.
+
+WORKOUT LENGTH CONTROL
+
+Adjust the number of exercises per session based on the user's workout length.
+
+30 minutes
+• 3–4 exercises per workout
+
+45 minutes
+• 4–5 exercises per workout
+
+60 minutes
+• 5–6 exercises per workout
+
+75+ minutes
+• 6–8 exercises per workout
+
 PROGRAM REQUIREMENTS
 
 Design a fully structured 12-week training program that includes:
@@ -829,16 +905,110 @@ Design a fully structured 12-week training program that includes:
 - cardio integration based on user preference and goal
 - recovery recommendations
 
-Organize the training into logical phases if appropriate, such as:
-- foundation
-- volume accumulation
-- intensification
-- deload
+PERIODIZATION REQUIREMENT
+
+The program must follow a structured periodization model across the 12 weeks.
+
+Phase 1 (Weeks 1–4) – Foundation
+• Focus on technique, moderate loads, and building volume tolerance
+• Rep ranges typically 8–12
+• Moderate intensity
+• Build work capacity
+
+Phase 2 (Weeks 5–8) – Progressive Overload
+• Gradually increase load or intensity
+• Rep ranges typically 6–10
+• Slightly heavier compound lifts
+• Volume remains productive but controlled
+
+Phase 3 (Weeks 9–11) – Intensification
+• Heavier compound lifts
+• Rep ranges typically 3–8 depending on goal
+• Accessory volume slightly reduced
+• Focus on strength and performance
+
+Week 12 – Deload
+• Reduce volume by 30–50%
+• Reduce intensity
+• Focus on recovery and technique
+
+GOAL-FIRST PROGRAM DESIGN
+
+The program must be designed starting from the user's primary goal.
+
+The goal determines:
+• rep ranges
+• exercise selection
+• volume
+• progression style
+• cardio integration
+• rest periods
+
+Do not create a generic program and then adjust it for the goal.
+
+Instead build the entire training structure around the goal from the beginning.
+
+GOAL TRAINING RULES
+
+Muscle Growth (Hypertrophy)
+Primary rep ranges:
+6–12 reps
+Training focus:
+• moderate to high volume
+• controlled tempo
+• hypertrophy focused accessory work
+• moderate rest periods
+
+Strength
+Primary rep ranges:
+3–6 reps on compound lifts
+Training focus:
+• heavy compound lifts
+• longer rest periods
+• lower accessory volume
+• progressive load increases
+
+Fat Loss
+Primary rep ranges:
+8–15 reps
+Training focus:
+• maintain muscle mass
+• slightly higher training density
+• include conditioning or cardio
+• moderate rest periods
+
+Athletic Performance
+Primary rep ranges:
+3–6 reps for power movements
+6–10 for strength work
+Training focus:
+• explosive movements
+• power development
+• strength balance
+• lower overall fatigue
+
+General Fitness
+Primary rep ranges:
+6–12 reps
+Training focus:
+• balanced movement patterns
+• moderate volume
+• moderate intensity
+• injury prevention
 
 EXERCISE ORDER PRIORITY
 
 Prioritize compound movements first in each workout before accessory exercises.
 Examples include squats, deadlifts, bench press, overhead press, rows, pull-ups, lunges, and presses.
+
+EXERCISE ORDER
+
+Each workout must follow this order:
+1. Primary compound lift
+2. Secondary compound lift
+3. Assistance exercises
+4. Isolation exercises
+5. Optional conditioning or core
 
 Accessory work should support the main training goal and should not replace the core lifts unless equipment, injury, or experience level requires it.
 
@@ -848,6 +1018,21 @@ Prioritize quality over quantity.
 Avoid junk volume.
 Do not overload sessions with unnecessary isolation work.
 Match total workload to the user's training age, workout length, and recovery demands.
+
+FATIGUE MANAGEMENT
+
+Avoid excessive junk volume.
+
+Guidelines:
+Large muscle groups
+10–16 working sets per week
+
+Smaller muscle groups
+6–12 working sets per week
+
+Distribute volume across training days to maintain recovery.
+
+Do not overload a single day with excessive accessory work.
 
 HYPERTROPHY VOLUME GUIDANCE
 
@@ -870,6 +1055,50 @@ FAT LOSS GUIDANCE
 If the user's goal is fat loss, preserve resistance training quality while using cardio and nutrition to support the calorie deficit.
 Do not reduce training quality so much that muscle retention is compromised.
 
+CARDIO INTEGRATION
+
+If cardio is included:
+
+Fat loss programs
+• 2–4 cardio sessions per week
+
+Muscle growth programs
+• 1–2 light cardio sessions
+
+Strength programs
+• Minimal cardio to avoid recovery interference
+
+Cardio should not negatively impact recovery for major lifts.
+
+MOVEMENT BALANCE RULE
+
+Each training week must include a balance of the following patterns:
+• squat pattern
+• hinge pattern
+• horizontal push
+• horizontal pull
+• vertical push
+• vertical pull
+• core stability
+
+Do not overemphasize a single pattern.
+
+EXERCISE SELECTION QUALITY
+
+Prioritize proven compound exercises when equipment allows.
+
+Examples:
+Squat variations
+Deadlift variations
+Bench press
+Overhead press
+Pull-ups
+Rows
+Lunges
+Hip hinges
+
+Accessory exercises should support the primary lifts.
+
 WORKOUT DAY FORMAT
 
 For each workout day include:
@@ -877,9 +1106,51 @@ Exercise Name
 Sets
 Reps
 Rest Time
+Progression Method
 Optional Notes
 
 Use a clean and consistent structure for every training day.
+
+PROGRAM STRUCTURE REQUIREMENT
+
+For every phase of the program, you must provide a complete weekly workout schedule.
+
+Do NOT summarize later phases.
+
+For EACH phase (Phase 1, Phase 2, Phase 3, etc.), output the full weekly training plan including:
+
+Day 1
+Day 2
+Day 3
+Day 4
+Day 5
+Day 6
+Day 7 (if applicable)
+
+Each day must list the exercises performed on that day.
+
+Never summarize phases with phrases like:
+“continue with similar structure” or “progress intensity.”
+
+Each phase must contain a complete weekly schedule so the user knows exactly what exercises to perform on each day.
+
+OUTPUT CONSISTENCY RULE
+
+If the user trains X days per week, every phase must contain the same number of training days unless a deload week is specified.
+
+EXERCISE CONSISTENCY
+
+Primary compound lifts should remain consistent across phases so progress can be tracked.
+
+Examples:
+Squat
+Bench press
+Deadlift
+Overhead press
+Rows
+Pull-ups
+
+Accessory exercises may rotate slightly between phases.
 
 FORM GUIDANCE
 
@@ -891,6 +1162,23 @@ If the user's fitness level is Advanced, do not include basic form guidance unle
 
 PROGRESSION RULES
 
+Each exercise must include a clear progression method.
+
+Use double progression when possible.
+
+Example:
+3–4 sets of 6–10 reps
+
+Progression method:
+• When the top rep range is achieved on all sets with good form, increase weight next session.
+
+For strength lifts:
+Example:
+5 sets of 3–5 reps
+
+Progression method:
+• Add 5 lbs when the top rep range is achieved.
+
 Clearly explain how the user should progress over time.
 Examples:
 - add reps within a target range before adding load
@@ -899,6 +1187,49 @@ Examples:
 - repeat loads if form breaks down
 
 Make progression practical and easy to follow.
+
+REST PERIOD GUIDELINES
+
+Strength compounds
+2–4 minutes
+
+Hypertrophy compounds
+90–120 seconds
+
+Accessory exercises
+60–90 seconds
+
+Isolation movements
+45–60 seconds
+
+INJURY ADAPTATION
+
+If injuries are listed:
+Avoid aggravating exercises.
+Provide safe alternatives.
+
+Example substitutions:
+Back squat → leg press
+Barbell bench → dumbbell press
+Deadlift → trap bar deadlift
+
+OUTPUT FORMAT REQUIREMENTS
+
+The program must be formatted clearly.
+
+Each workout day must include:
+Exercise name
+Sets
+Reps
+Rest time
+Progression method
+
+Example:
+
+Bench Press
+4 sets × 6–8 reps
+Rest: 2–3 minutes
+Progression: Add weight when 8 reps are achieved on all sets.
 
 NUTRITION GUIDANCE
 
