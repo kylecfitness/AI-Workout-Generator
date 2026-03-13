@@ -303,60 +303,6 @@ font-size:13px;
 color:#6b7280;
 line-height:1.5;
 }
-.result-panel{
-margin-top:18px;
-padding:18px;
-border-radius:18px;
-background:#ffffff;
-border:1px solid #e5e7eb;
-box-shadow:0 10px 28px rgba(15,23,42,.06);
-}
-.result-panel h3{
-margin:0 0 8px;
-font-size:18px;
-}
-.result-sub{
-color:#6b7280;
-font-size:14px;
-margin-bottom:14px;
-line-height:1.5;
-}
-.result-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
-margin-bottom:14px;
-}
-.result-stat{
-background:#f8fafc;
-border:1px solid #e5e7eb;
-border-radius:14px;
-padding:14px;
-}
-.result-stat-label{
-font-size:12px;
-text-transform:uppercase;
-letter-spacing:.08em;
-color:#6b7280;
-margin-bottom:6px;
-font-weight:bold;
-}
-.result-stat-value{
-font-size:16px;
-font-weight:bold;
-color:#111827;
-}
-.result-box{
-background:#f8fafc;
-border:1px solid #e5e7eb;
-border-radius:14px;
-padding:14px;
-margin-top:12px;
-}
-.result-box-title{
-font-weight:bold;
-margin-bottom:8px;
-}
 .save-phase{
 margin-top:18px;
 padding:18px;
@@ -471,31 +417,6 @@ Works with <span>ChatGPT</span> • <span>Claude</span> • <span>Gemini</span> 
 <label>AI Optimization</label>
 <input value="Automatically optimized for selected AI" readonly>
 </div>
-</div>
-
-<div class="section-title">Program Progression</div>
-<div class="grid">
-
-<div>
-<label>Program Phase</label>
-<select id="programPhase">
-<option>First Program</option>
-<option>Phase 2 Progression</option>
-<option>Phase 3 Intensification</option>
-<option>Deload & Rebuild</option>
-</select>
-</div>
-
-<div>
-<label>Program Code</label>
-<input id="programCode" readonly>
-</div>
-
-<div class="full">
-<label>Previous Program Notes</label>
-<textarea id="previousNotes" style="min-height:140px" placeholder="Paste your previous program notes here when you come back. Example: final working weights, progress made, favorite exercises, disliked exercises, fatigue issues, and anything that should carry into the next phase."></textarea>
-</div>
-
 </div>
 
 <div class="section-title">Training Info</div>
@@ -716,35 +637,29 @@ AFTER WEEK 12: Return to KCOptimized AI Workout Generator and build your next tr
 Bookmark this generator so you can build your next training phase when this program is done.
 </div>
 
-<div class="result-panel" id="resultPanel">
-<h3>Generate Program Here</h3>
-<div class="result-sub">A structured on-page preview so the tool feels more like a real training system, even before full direct AI generation.</div>
-<div class="result-grid">
-  <div class="result-stat">
-    <div class="result-stat-label">Program Title</div>
-    <div class="result-stat-value" id="resultTitle">12-Week Muscle Growth Program</div>
-  </div>
-  <div class="result-stat">
-    <div class="result-stat-label">Weekly Split</div>
-    <div class="result-stat-value" id="resultSplit">3 Days • Full Body</div>
-  </div>
-  <div class="result-stat">
-    <div class="result-stat-label">Primary Focus</div>
-    <div class="result-stat-value" id="resultFocus">Compound lifts, progression, recovery</div>
-  </div>
-  <div class="result-stat">
-    <div class="result-stat-label">Recovery Demand</div>
-    <div class="result-stat-value" id="resultRecovery">Moderate</div>
-  </div>
+<div class="section-title">Program Progression</div>
+<div class="grid">
+
+<div>
+<label>Program Phase</label>
+<select id="programPhase">
+<option>First Program</option>
+<option>Phase 2 Progression</option>
+<option>Phase 3 Intensification</option>
+<option>Deload & Rebuild</option>
+</select>
 </div>
-<div class="result-box">
-  <div class="result-box-title">Sample Weekly Structure</div>
-  <div id="resultWeekly">Day 1 Full Body • Day 2 Full Body • Day 3 Full Body</div>
+
+<div>
+<label>Program Code</label>
+<input id="programCode" readonly>
 </div>
-<div class="result-box">
-  <div class="result-box-title">Sample Progression Plan</div>
-  <div id="resultProgression">Add reps inside the range first, then add load once top reps are achieved with clean form. Deload when planned.</div>
+
+<div class="full">
+<label>Previous Program Notes</label>
+<textarea id="previousNotes" style="min-height:140px" placeholder="Paste your previous program notes here when you come back. Example: final working weights, progress made, favorite exercises, disliked exercises, fatigue issues, and anything that should carry into the next phase."></textarea>
 </div>
+
 </div>
 
 <div class="save-phase" id="savePhaseBlock">
@@ -806,84 +721,6 @@ supplementSug: document.getElementById("supplementSug").value
 }
 }
 
-
-function getSplitLabel(data){
-if(data.split && data.split !== "No preference") return data.split
-const d = parseInt(data.days || "3", 10)
-if(d <= 2) return "Full Body"
-if(d === 3) return "Full Body"
-if(d === 4) return "Upper / Lower"
-if(d >= 5) return "Push Pull Legs"
-return "No preference"
-}
-
-function getProgramTitle(data){
-const phaseMap = {
-"First Program":"Foundation",
-"Phase 2 Progression":"Progression",
-"Phase 3 Intensification":"Intensification",
-"Deload & Rebuild":"Deload & Rebuild"
-}
-return `12-Week ${data.goal} ${phaseMap[data.programPhase] || "Program"}`
-}
-
-function getRecoveryDemand(data){
-const intensity = data.intensity
-const days = parseInt(data.days || "3", 10)
-if(intensity === "Elite" || days >= 6) return "High"
-if(intensity === "Hard" || days >= 4) return "Moderate-High"
-return "Moderate"
-}
-
-function getWeeklyStructure(data){
-const split = getSplitLabel(data)
-const d = parseInt(data.days || "3", 10)
-if(split === "Upper / Lower"){
-  return d >= 4 ? "Day 1 Upper • Day 2 Lower • Day 3 Upper • Day 4 Lower" : "Upper / Lower rotation"
-}
-if(split === "Push Pull Legs"){
-  return d >= 5 ? "Push • Pull • Legs • Upper • Lower" : "Push • Pull • Legs"
-}
-if(split === "Body Part Split"){
-  return "Chest • Back • Legs • Shoulders • Arms"
-}
-if(d <= 2) return "Day 1 Full Body • Day 2 Full Body"
-if(d == 3) return "Day 1 Full Body • Day 2 Full Body • Day 3 Full Body"
-return "Compound-first weekly split based on your schedule"
-}
-
-function getFocusText(data){
-const map = {
-"Muscle Growth":"Hypertrophy, compound lifts, quality volume",
-"Strength":"Main lifts, lower reps, longer rest",
-"Fat Loss":"Muscle retention, cardio support, recovery",
-"Athletic Performance":"Power, explosiveness, strength balance",
-"General Fitness":"Balanced training, consistency, recovery"
-}
-return map[data.goal] || "Compound lifts, progression, recovery"
-}
-
-function getProgressionText(data){
-if(data.programPhase === "Phase 2 Progression"){
-  return "Build from the previous phase by adding reps or load gradually while keeping fatigue under control."
-}
-if(data.programPhase === "Phase 3 Intensification"){
-  return "Shift toward heavier compound work, slightly lower reps on major lifts, and more precise fatigue management."
-}
-if(data.programPhase === "Deload & Rebuild"){
-  return "Reduce volume and intensity first, then rebuild momentum with cleaner execution and better recovery."
-}
-return "Add reps inside the range first, then add load once top reps are achieved with clean form. Deload when planned."
-}
-
-function updateResultPanel(data){
-document.getElementById("resultTitle").textContent = getProgramTitle(data)
-document.getElementById("resultSplit").textContent = `${data.days} Days • ${getSplitLabel(data)}`
-document.getElementById("resultFocus").textContent = getFocusText(data)
-document.getElementById("resultRecovery").textContent = getRecoveryDemand(data)
-document.getElementById("resultWeekly").textContent = getWeeklyStructure(data)
-document.getElementById("resultProgression").textContent = getProgressionText(data)
-}
 
 function getReturnTemplate(data){
 return `Program Code: ${data.programCode}
@@ -1311,7 +1148,6 @@ document.getElementById("output").value = prompt
 updateMeter(data)
 updateTip(data)
 updatePreview(data)
-updateResultPanel(data)
 updateSavePhaseBlock(data)
 document.getElementById("returnBanner").innerHTML = "AFTER WEEK 12: Return to KCOptimized AI Workout Generator and build your next training phase. Save your final weights and progress so the next program can continue from where you left off. Program Code: <b>" + data.programCode + "</b>"
 showPromptReady()
@@ -1432,12 +1268,6 @@ document.getElementById("previewOutput").innerHTML = `<div class="preview-day-ti
 <li>Romanian Deadlift — 2x10</li>
 <li>Plank — 3 rounds</li>
 </ul>`
-document.getElementById("resultTitle").textContent = "12-Week Muscle Growth Program"
-document.getElementById("resultSplit").textContent = "3 Days • Full Body"
-document.getElementById("resultFocus").textContent = "Compound lifts, progression, recovery"
-document.getElementById("resultRecovery").textContent = "Moderate"
-document.getElementById("resultWeekly").textContent = "Day 1 Full Body • Day 2 Full Body • Day 3 Full Body"
-document.getElementById("resultProgression").textContent = "Add reps inside the range first, then add load once top reps are achieved with clean form. Deload when planned."
 document.getElementById("savePhaseCode").textContent = "Program Code: KCX-BULK-3D-P1-2026"
 document.getElementById("savePhaseTemplate").value = `Final working weights:
 Best lifts:
