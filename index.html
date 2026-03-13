@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -203,6 +204,11 @@ Follow on Instagram → @kcoptimized
 </div>
 
 <div>
+<label>Body Weight (lbs)</label>
+<input id="bodyweight" placeholder="Example: 215">
+</div>
+
+<div>
 <label>Years Training</label>
 <input id="experience">
 </div>
@@ -276,6 +282,29 @@ Follow on Instagram → @kcoptimized
 
 </div>
 
+<div class="section-title">Nutrition Program</div>
+<div class="grid">
+
+<div>
+<label>Nutrition Goal</label>
+<select id="nutritionGoal">
+<option>No nutrition program</option>
+<option>Fat Loss (Calorie Deficit)</option>
+<option>Maintenance</option>
+<option>Muscle Gain (Calorie Surplus)</option>
+</select>
+</div>
+
+<div>
+<label>Include Macro Guidance?</label>
+<select id="macroGuide">
+<option>No</option>
+<option>Yes</option>
+</select>
+</div>
+
+</div>
+
 <div class="section-title">Supplements</div>
 <div class="grid">
 
@@ -319,9 +348,11 @@ Built by KCOptimized
 
 <script>
 function generatePrompt(){
+
 const level=document.getElementById("level").value
 const goal=document.getElementById("goal").value
 const intensity=document.getElementById("intensity").value
+const bodyweight=document.getElementById("bodyweight").value
 const experience=document.getElementById("experience").value
 const days=document.getElementById("days").value
 const split=document.getElementById("split").value
@@ -329,6 +360,8 @@ const length=document.getElementById("length").value
 const equipment=document.getElementById("equipment").value
 const injuries=document.getElementById("injuries").value
 const cardio=document.getElementById("cardio").value
+const nutritionGoal=document.getElementById("nutritionGoal").value
+const macroGuide=document.getElementById("macroGuide").value
 const supplements=document.getElementById("supplements").value
 const supplementSug=document.getElementById("supplementSug").value
 
@@ -337,6 +370,7 @@ const prompt=`Create a 12-week adaptive workout program.
 Fitness Level: ${level}
 Goal: ${goal}
 Intensity: ${intensity}
+Bodyweight: ${bodyweight}
 Training Experience: ${experience}
 Training Days Per Week: ${days}
 Preferred Split: ${split}
@@ -344,26 +378,39 @@ Workout Length: ${length}
 Available Equipment: ${equipment}
 Injuries: ${injuries}
 Cardio Preference: ${cardio}
+
+Nutrition Goal: ${nutritionGoal}
+Macro Guidance Requested: ${macroGuide}
+
 Current Supplements: ${supplements}
 Suggested Supplements Requested: ${supplementSug}
 
-Include progressive overload, deload weeks, substitutions, fatigue management, and recovery tips.
+Design a fully structured 12‑week adaptive workout program including:
+- weekly training split
+- progressive overload strategy
+- deload weeks
+- exercise substitutions if equipment is missing
+- fatigue management
+- cardio integration
+- recovery tips
 
-Take current supplements into account before suggesting anything new.
+If a nutrition goal is selected:
+- estimate daily calorie targets based on bodyweight
+- suggest macros for protein, carbs, and fats
+- adjust calories for deficit, maintenance, or surplus
 
-If supplement suggestions are requested, include a brief suggested supplement section.
+Take current supplements into account before suggesting new ones.
 
-Format the final output so it is clean and easy to print as a PDF workout sheet.
+Format the final output so it is clean and printable as a PDF workout sheet the user can bring to the gym.
 
 Use:
-- a program title
-- clear weekly structure
+- program title
+- weekly structure
 - clearly labeled workout days
 - exercises with sets, reps, and rest
-- a notes section
-- a supplement section if requested
-
-Keep it organized, concise, and printer-friendly so the user can save or print it and bring it to the gym.`
+- notes section
+- supplement section if requested
+- nutrition section if requested.`
 
 document.getElementById("output").value=prompt
 }
